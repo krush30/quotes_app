@@ -3,6 +3,7 @@ import Quotescard from './Quotescard';
 
 const Quotes = () => {
     const [quotes, setQuotes] = useState([]);
+    const [saveQuote, setSaveQuote] = useState([]);
 
     const fetchData = async () => {
         try {
@@ -18,11 +19,21 @@ const Quotes = () => {
         fetchData();
     }, []);
 
+    const handleQuotes = (quote) => {
+        setSaveQuote((ifSavedQuotes) => {
+            if (ifSavedQuotes.includes(quote)) {
+                return ifSavedQuotes.filter(q => q !== quote)
+            } else {
+                return [...ifSavedQuotes, quote]
+            }
+        })
+    }
+
     return (
         <div className="container mx-auto p-4">
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
                 {quotes.map((quote, index) => (
-                    <Quotescard key={index} quote={quote} />
+                    <Quotescard key={index} quote={quote} savedQuote={saveQuote.includes(quote)} savefun={handleQuotes} />
                 ))}
             </div>
         </div>
